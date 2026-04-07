@@ -1,0 +1,6 @@
+# check /usr/share/zoneinfo/ for valid timezones
+timezone="America/Los_Angeles"
+hostname="Arch"
+# in the format of root:password
+rootPassword="root:root"
+userName="User"
