@@ -33,5 +33,5 @@ echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 # enable system services
 
 # boot stuff
-#
+
 
