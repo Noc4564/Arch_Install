@@ -8,7 +8,7 @@ source config.txt
 
 # check bootmode
 bootmode=$(cat /sys/firmware/efi/fw_platform_size)
-if [[$bootmode != 64 ]]; then
+if [[ $bootmode != 64 ]]; then
 	echo Bootmode does not equal 64 exiting script.
 	exit
 else
@@ -44,4 +44,9 @@ pacstrap -K /mnt "${basePackages[@]}"
 
 # genfstab
 genfstab -U /mnt >> /mnt/etc/fstab
+
+# start next script
+## copy first to root home directory
+cp ./* /mnt/root
+arch-chroot /mnt /root/Step2.sh
 
