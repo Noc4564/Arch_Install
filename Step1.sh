@@ -29,17 +29,19 @@ cpuVendor="${cpuVendorPreprocess##* }"
 ## determine vendor for use in pacstrap
 if [[ "$cpuVendor" == "GenuineIntel" ]]; then
 	echo Vendor is: "Intel"
-	pacVendor="intel-ucode"
+	cpuVendor="intel-ucode"
 elif [[ "$cpuVendor" == "GenuineAMD" ]]; then
 	echo Vendor is: "AMD"
-	pacVendor="amd-ucode"
+	cpuVendor="amd-ucode"
 else
 	echo Cannot determine CPU vendor!
 	exit
 fi
 
 # run pacstrap (just base packages for now)
+basePackages+=("$cpuVendor")
 pacstrap -K /mnt "${basePackages[@]}"
 
 # genfstab
 genfstab -U /mnt >> /mnt/etc/fstab
+
