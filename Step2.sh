@@ -31,6 +31,9 @@ useradd -m -G wheel "$userName"
 # make users in wheel group a sudoer
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 
+# package installs
+
+
 # ZRAM
 cat <<EOF > /etc/systemd/zram-generator.conf
 [zram0]
@@ -46,5 +49,8 @@ systemctl enable bluetooth
 systemctl enable systemd-zram-setup@zram0.service
 
 # boot stuff (installing grub)
-
+pacman -S grub efibootmgr
+mkdir /boot/EFI
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
