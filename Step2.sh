@@ -11,6 +11,7 @@ hwclock --systoch
 
 # locale uncomment section and locale-gen
 ## uncomment locale
+sed -i '/"$locale"/s/^#//' /etc/locale.gen
 
 ## gen locale
 locale-gen
@@ -30,8 +31,20 @@ useradd -m -G wheel "$userName"
 # make users in wheel group a sudoer
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 
-# enable system services
+# ZRAM
+cat <<EOF > /etc/systemd/zram-generator.conf
+[zram0]
+zram-size = ram / 2
+compression-algorithm = zstd
+swap-priority = 100
+EOF
 
-# boot stuff
+# enable system services
+systemctl enable NetworkManager
+systemctl enable sddm
+systemctl enable bluetooth
+systemctl enable systemd-zram-setup@zram0.service
+
+# boot stuff (installing grub)
 
 
