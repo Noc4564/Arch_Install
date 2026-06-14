@@ -19,20 +19,22 @@ locale-gen
 # hostname
 echo "$hostname" >> /etc/hostname:create
 
-# probably not actually needed but run anyways it is for the systemd initial RAM file system
+# probably not actually needed but run anyways. It is for the systemd initial RAM file system
 mkinitcpio -P
 
 # set root password
 echo "$rootPassword" | sudo chpasswd
 
-# create new user
+# create new user and set password
 useradd -m -G wheel "$userName"
+echo "$userName":"$userPassword" | sudo chpasswd
 
 # make users in wheel group a sudoer
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 
 # package installs
 
+pacman -Syu "$additionalPackages"
 
 # ZRAM
 cat <<EOF > /etc/systemd/zram-generator.conf
