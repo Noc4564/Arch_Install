@@ -2,8 +2,11 @@
 timezone="America/Los_Angeles"
 locale="en_US.UTF-8"
 # ### HOSTNAME HERE ### #
-hostname="Arch"
+hostName="Arch"
 # in the format of username:password
 rootPassword="root:root"
 userName="User"
 userPassword="password"
+# github repo
+git="https://github.com/Noc4564/.dotfiles.git"
+

@@ -17,7 +17,7 @@ sed -i '/"$locale"/s/^#//' /etc/locale.gen
 locale-gen
 
 # hostname
-echo "$hostname" >> /etc/hostname:create
+echo "$hostName" >> /etc/hostname:create
 
 # probably not actually needed but run anyways. It is for the systemd initial RAM file system
 mkinitcpio -P
@@ -33,7 +33,16 @@ echo "$userName":"$userPassword" | sudo chpasswd
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 
 # package installs
-
+declare -a additionalPackages
+while read -r line <&3; do
+  package="${line%%=*}"
+  install="${!package}"
+  if [[ "$install" == y ]]; then
+    while read -r pkg; do
+      additionalPackages+=("$pkg")
+    done < "package-groups/${package}.txt"
+  fi
+done 3< "pkgs-to-install.txt"
 pacman -Syu "$additionalPackages"
 
 # ZRAM
